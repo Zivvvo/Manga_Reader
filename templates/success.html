@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask Tutorial</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <p> Browse Mangas </p>
+    <form action = "http://localhost:5000/" method = "post">
+      <p>Make Another Search:</p>
+      <p><input type = "text" name = "nm" /></p>
+      <p><input type = "submit" value = "submit" /></p>
+
+    <table id="search_results" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Description</th>
+            </tr>            
+        </thead>
+    <tbody>
+        {% for item in data.results %}
+        <tr>
+            <td><a href="/select?id={{item.id}}">{{item.title}}</a></td>
+            <td>{{item.id}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.description}}</td>
+        </tr>
+            {% endfor %}
+    </tbody>
+    </ul>
+    
+    {% endblock %}
+  </body>
+</html>

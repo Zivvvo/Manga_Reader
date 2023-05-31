@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask Tutorial</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <p> Browse Mangas </p>
+    <form action = "http://localhost:5000/" method = "post">
+      <p>Make Another Search:</p>
+      <p><input type = "text" name = "nm" /></p>
+      <p><input type = "submit" value = "submit" /></p>
+    </form>
+
+
+    <!-- The grid: four columns -->
+
+
+<!-- The page list -->
+<div class="page-list">
+
+  <label for="language">Select a page:</label>
+
+  <select id="page_select" name="list" data-currPage=0 onchange=myFunction(this) id="select_list">
+  {%for i,item in data%}
+    <option value="{{item.img}}"  >{{i}}</option>
+  {%endfor%}
+    
+  </select>
+  <button onclick=turnLeft(this)><</button>
+  <button onclick=turnRight(this)>></button>
+
+  
+
+
+  <div class="container">
+    <h2>page <span id="pageNumber"></span></h2>
+    <img id="expandedImg" src="{{data2[0].img}}" style="width:100%">
+    <div id="imgtext"></div>
+  </div>
+</div>
+
+<script>
+  var expandImg = document.getElementById("expandedImg");
+  var imgText = document.getElementById("imgtext");
+
+  console.log();
+
+  function displayPageNumber(){
+    document.getElementById("pageNumber").innerHTML = document.getElementById("page_select").getAttribute("data-currPage");
+  }
+
+  function myFunction(btn) {
+    
+    expandImg.src = null;
+
+    const index = btn.selectedIndex;
+    btn.dataset.currpage = index
+    console.log(index);
+    console.log(btn.options[index].value);
+    
+    expandImg.src = btn.options[index].value;
+    expandImg.parentElement.style.display = "block";
+    
+  }
+
+  function turnLeft(btn){
+    console.log(document.getElementById("page_select"));
+    if (document.getElementById("page_select").getAttribute("data-currPage") > 0) {
+    document.getElementById("page_select").setAttribute("data-currPage", parseInt(document.getElementById("page_select").getAttribute("data-currPage"))-1);
+    expandImg.src = document.getElementById("page_select").options[document.getElementById("page_select").getAttribute("data-currPage")].value;
+    expandImg.parentElement.style.display = "block";
+    const $select = document.querySelector('#page_select');
+    $select.value = document.getElementById("page_select").getAttribute("data-currPage");
+    }
+
+    
+  }
+
+  function turnRight(btn){
+    if (document.getElementById("page_select").getAttribute("data-currPage") < document.getElementById("page_select").options.length) {
+    document.getElementById("page_select").setAttribute("data-currPage", parseInt(document.getElementById("page_select").getAttribute("data-currPage"))+1);
+    console.log(document.getElementById("page_select"));
+    console.log( document.getElementById("page_select").options);
+    console.log(document.getElementById("page_select").getAttribute("data-currPage"));
+    expandImg.src = document.getElementById("page_select").options[document.getElementById("page_select").getAttribute("data-currPage")].value;
+    expandImg.parentElement.style.display = "block";
+
+    const $select = document.querySelector('#page_select');
+    $select.value = document.getElementById("page_select").getAttribute("data-currPage");
+    }
+
+    
+  }
+  </script>
+    
+
+
+
+    {%endblock%}
+    
+    
+  </body>
+</html>
